@@ -26,7 +26,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	default_random_engine gen;
-	num_particles = 100;
+	num_particles = 70;
 
 	weights.resize(num_particles);
 
@@ -184,10 +184,11 @@ void ParticleFilter::resample() {
 
 	vector<Particle> particle_samples;
 	default_random_engine gen;
+	uniform_int_distribution<> rand_index(0, num_particles-1);
 	uniform_real_distribution<double> rand_num(0.0,1.0);
 	double max_w = *max_element(weights.begin(),weights.end());
 	double beta = 0.0;
-	int index = 0;
+	int index = rand_index(gen);
 
 	for(int i=0; i<num_particles; i++){
 		beta += 2 * rand_num(gen) * max_w;
